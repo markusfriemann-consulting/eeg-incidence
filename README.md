@@ -26,40 +26,42 @@ For each year between 2010 and today, which Bundesländer are net winners and lo
 
 ## Repository layout
 
+## Repository layout
+
+```
 eeg-incidence/
-├── README.md                    # This file
-├── LICENSE                      # MIT (code only — data licenses differ, see below)
-├── .gitignore                   # Excludes raw data, secrets, local Databricks state
-├── pyproject.toml               # Python dependencies for ingest scripts and tests
-│
-├── ingest/                      # Code that runs OUTSIDE Databricks (local + GitHub Actions)
-│   │                            # Pulls from public sources, lands files in UC Volume
-│   ├── mastr/                   # Marktstammdatenregister bulk download via open-mastr
-│   ├── jahresabrechnung/        # ÜNB EEG-Jahresabrechnung Bewegungsdaten (4 ÜNB × ~14 years)
-│   ├── netztransparenz/         # OAuth-authenticated API calls (EEG-Konto, Finanzierungsbedarf)
-│   └── destatis/                # Manual XLSX uploads (tax revenue, electricity consumption, population)
-│
-├── databricks/                  # Code that runs INSIDE Databricks
-│   ├── databricks.yml           # Asset Bundle root — defines jobs, pipelines, targets
-│   ├── resources/               # Bundle resource definitions
-│   │   ├── pipelines.yml        # Lakeflow Declarative Pipeline configs
-│   │   └── jobs.yml             # Job/workflow configs
-│   ├── src/                     # Notebook and Python module sources
-│   │   ├── bronze/              # Auto Loader notebooks per source (one per dataset)
-│   │   ├── silver/              # @dlt.table modules building dim_* and fct_* tables
-│   │   └── gold/                # Aggregation queries producing analytical outputs
-│   └── dashboards/              # Lakeview dashboard JSON exports (version-controlled)
-│
-├── tests/                       # Local pytest suite for transformation logic
-│   └── unit/                    # Pure-Python unit tests (no Spark required)
-│
-├── docs/                        # Project documentation
-│   ├── methodology.md           # How Flow A and Flow B are computed; assumptions
-│   ├── architecture.md          # Diagrams and design decisions
-│   └── data-sources.md          # Catalogue of every external dataset used
-│
-└── data_inbox/                  # GITIGNORED — local-only, raw downloads before upload to UC Volume
-# Never commit anything from here
+  README.md                    This file
+  LICENSE                      MIT (code only — data licenses differ)
+  .gitignore                   Excludes raw data, secrets, local Databricks state
+  pyproject.toml               Python dependencies for ingest scripts and tests
+
+  ingest/                      Code that runs OUTSIDE Databricks
+    mastr/                     Marktstammdatenregister bulk download via open-mastr
+    jahresabrechnung/          ÜNB EEG-Jahresabrechnung Bewegungsdaten
+    netztransparenz/           OAuth-authenticated API calls
+    destatis/                  Manual XLSX uploads
+
+  databricks/                  Code that runs INSIDE Databricks
+    databricks.yml             Asset Bundle root
+    resources/                 Bundle resource definitions
+      pipelines.yml            Lakeflow Declarative Pipeline configs
+      jobs.yml                 Job/workflow configs
+    src/                       Notebook and Python module sources
+      bronze/                  Auto Loader notebooks per source
+      silver/                  @dlt.table modules
+      gold/                    Aggregation queries
+    dashboards/                Lakeview dashboard JSON exports
+
+  tests/                       Local pytest suite
+    unit/                      Pure-Python unit tests
+
+  docs/                        Project documentation
+    methodology.md             How Flow A and Flow B are computed
+    architecture.md            Diagrams and design decisions
+    data-sources.md            Catalogue of external datasets
+
+  data_inbox/                  GITIGNORED — never commit
+```
 
 ## Layer responsibilities
 
@@ -73,12 +75,12 @@ Once files land in the Volume, everything else — bronze, silver, gold, MLflow,
 
 ## Unity Catalog structure
 
-eeg_dev (catalog)
-├── bronze (schema)             # Raw ingested data, one table per source dataset
-├── silver (schema)             # Cleaned and conformed dim/fct tables
-├── gold (schema)               # Analytical aggregates feeding the dashboard
-└── raw_files (schema)
-└── landing (volume)        # File landing zone — /Volumes/eeg_dev/raw_files/landing/
+- **Catalog:** `eeg_dev`
+  - **Schema:** `bronze` — raw ingested data, one table per source dataset
+  - **Schema:** `silver` — cleaned and conformed `dim_*` / `fct_*` tables
+  - **Schema:** `gold` — analytical aggregates feeding the dashboard
+  - **Schema:** `raw_files`
+    - **Volume:** `landing` — file landing zone at `/Volumes/eeg_dev/raw_files/landing/`
 
 ## Data sources and licenses
 
