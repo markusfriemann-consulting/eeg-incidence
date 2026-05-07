@@ -4,7 +4,7 @@ Databricks lakehouse analysing the geographic incidence of German EEG payments i
  
 **Headline finding:** In 2024, Bayern is the largest absolute net winner (+€2.03 Bn), Nordrhein-Westfalen the largest net payer (−€1.85 Bn). Per capita, Mecklenburg-Vorpommern leads (+€398/inhabitant), Hamburg trails (−€368/inhabitant). About €2.07 Bn flows to offshore wind in the Ausschließliche Wirtschaftszone (AWZ) — paid for by all Bundesländer, received by none.
  
-See [`docs/methodology.md`](docs/methodology.md) for the full methodology and `docs/eeg_2024_editorial.html` for the published infographic.
+See [`docs/methodology.md`](docs/methodology.md) for the full methodology and `docs/EEG 2024 — Wer profitiert von der Energiewende_.pdf` for the published infographic.
  
 ## The question, precisely
  
