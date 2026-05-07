@@ -18,8 +18,8 @@ SNAPSHOT_ISO = f"{SNAPSHOT[:4]}-{SNAPSHOT[4:6]}-{SNAPSHOT[6:]}"
 
 OUTPUT_ROOT = Path("data_inbox/mastr")
 
-DOWNLOAD_CATEGORIES = ["wind", "solar", "biomass", "hydro", "market"]
-CSV_EXPORT_CATEGORIES = ["wind", "solar", "biomass", "hydro", "market_actors"]
+DOWNLOAD_CATEGORIES = ["wind", "solar", "biomass", "hydro", "market", "gsgk", "deleted_units"]
+CSV_EXPORT_CATEGORIES = ["wind", "solar", "biomass", "hydro", "market_actors", "gsgk", "deleted_units"]
 
 
 def main() -> None:
